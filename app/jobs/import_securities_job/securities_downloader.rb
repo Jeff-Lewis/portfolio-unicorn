@@ -17,9 +17,9 @@ class SecuritiesDownloader
   private
   def self.connection
     Faraday.new ("http://www.nasdaq.com/") do |faraday |
+      faraday.adapter Faraday.default_adapter
       faraday.request :url_encoded
       faraday.response :raise_error
-      faraday.response :logger
     end
   end
 end
