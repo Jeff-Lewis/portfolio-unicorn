@@ -24,6 +24,9 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'clockwork'
 gem 'delayed_job_active_record', '~> 4.0.0.beta2'
 
+#add foreign keys to relationships
+gem 'foreigner' 
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
@@ -46,4 +49,6 @@ group :development do
     gem 'hirb'
     gem 'wirble'
     gem 'awesome_print'
+    #annotate files with db schema
+    gem 'annotate'
 end
