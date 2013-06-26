@@ -10,6 +10,8 @@ gem 'pg'
 # Use unicorn as the app server
 gem 'unicorn'
 
+gem 'faraday'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
