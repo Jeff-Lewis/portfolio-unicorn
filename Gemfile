@@ -52,3 +52,15 @@ group :development do
     #annotate files with db schema
     gem 'annotate'
 end
+
+group :development, :test do 
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'faker'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'launchy'
+end
