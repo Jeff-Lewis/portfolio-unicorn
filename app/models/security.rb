@@ -22,6 +22,10 @@ class Security < ActiveRecord::Base
 
   before_save :lower_case_fields
 
+  def symbol=(symbol)
+    write_attribute(:symbol, symbol.nil? ? symbol : symbol.downcase)
+  end
+
   private
     def lower_case_fields
       self.symbol.downcase!

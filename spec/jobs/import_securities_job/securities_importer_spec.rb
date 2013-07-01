@@ -70,7 +70,6 @@ describe SecuritiesImporter do
         updated_security = @importer.updated_securities[0]
         expect(updated_security.name).to eq("Apple Inc.")
       end
-
     end
 
     context "Not valid CSV" do
@@ -92,4 +91,15 @@ describe SecuritiesImporter do
       end
     end
   end
+
+  context "Identical CSV" do
+      it "does not save the security again" do
+        @apple = FactoryGirl.create(:aapl, name: "Apple Inc.")
+        @nasdaq = @apple.exchange
+        puts @apple.inspect
+        @importer = SecuritiesImporter.new(@nasdaq.name, csv_apple_valid)
+        @importer.import
+        expect(@importer.updated_securities.size).to eq(0)
+      end
+    end
 end

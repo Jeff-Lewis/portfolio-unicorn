@@ -62,10 +62,17 @@ class SecuritiesImporter
   end
 
   def try_save(security, row)
-    container = security.new_record? ? @imported_securities : @updated_securities
+    container = case
+    when security.new_record?
+      @imported_securities
+    when security.changed?
+      @updated_securities
+    else nil
+    end
+
     begin
-      security.save!
-      container << security
+      security.save! if security.changed?
+      container << security unless container.nil?
     rescue ActiveRecord::ActiveRecordError => exception
       logger.error "failed saving row...:excetion=#{exception.inspect}, row=#{row}"
       @failed_lines << row
