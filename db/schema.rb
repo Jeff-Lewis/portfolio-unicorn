@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130626095629) do
+ActiveRecord::Schema.define(version: 20130708143000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,11 +39,12 @@ ActiveRecord::Schema.define(version: 20130626095629) do
   end
 
   create_table "securities", force: true do |t|
-    t.string   "symbol",      null: false
-    t.string   "name",        null: false
-    t.integer  "exchange_id", null: false
+    t.string   "symbol",                     null: false
+    t.string   "name",                       null: false
+    t.integer  "exchange_id",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "active",      default: true, null: false
   end
 
   add_foreign_key "securities", "exchanges", :name => "securities_exchange_id_fk", :dependent => :delete

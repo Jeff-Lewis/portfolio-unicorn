@@ -22,6 +22,11 @@ describe Security do
       expect(security.symbol).to eq('aapl')
     end
 
+    it "should be active by default" do
+      security = FactoryGirl.create(:security)
+      expect(security).to be_active
+    end
+
     context "Duplicate symbol detection" do
         before(:each) do
           @lse = FactoryGirl.create(:lse)
