@@ -16,4 +16,10 @@ FactoryGirl.define do
     name "Apple"
     association :exchange, factory: :nasdaq
   end
+
+  factory :msft, class: Security do
+    symbol "msft"
+    name "Microsoft"
+    association :exchange, factory: :nasdaq
+  end
 end

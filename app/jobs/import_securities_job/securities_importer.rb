@@ -6,6 +6,7 @@ class SecuritiesImporter
   attr_reader :csv_data
   attr_reader :imported_securities
   attr_reader :updated_securities
+  attr_reader :deactivated_securities
   attr_reader :failed_lines
 
   def initialize(exchange_name, csv_data)
@@ -24,6 +25,8 @@ class SecuritiesImporter
     (1..@rows.size - 1).each do |i|
       process_row(@rows[i])
     end
+
+    deactivate_delisted_securities
   end
 
   def mapping
@@ -32,8 +35,10 @@ class SecuritiesImporter
 
   private
   def process_row(row)
-    logger.info "processing symbol #{row[0].downcase}"
-    security = Security.find_by(exchange: @exchange, symbol: row[0].downcase)
+    symbol = row[0].downcase
+    logger.info "processing symbol #{symbol}"
+    security = Security.find_by(exchange: @exchange, symbol: symbol)
+    @all_csv_symbols << symbol
 
     if security.nil?
       import_new_security(row)
@@ -51,6 +56,9 @@ class SecuritiesImporter
 
   def update_existing_security(security, row)
     security.attributes = build_attributes(row)
+    unless security.active?
+      security.active = true
+    end
     logger.info "updating existing security: #{security.inspect}"
     try_save(security, row)
   end
@@ -79,10 +87,18 @@ class SecuritiesImporter
     end
   end
 
+  def deactivate_delisted_securities
+    securities_to_deactive = Security.where("exchange_id = (?) and symbol NOT IN (?)",@exchange.id, @all_csv_symbols)
+    securities_to_deactive.update_all({active: false})
+    @deactivated_securities = securities_to_deactive
+  end
+
   def clear_fields
     @imported_securities = []
     @updated_securities = []
     @failed_lines = []
+    @all_csv_symbols = []
+    @deactivated_securities = []
   end
 
   def logger
