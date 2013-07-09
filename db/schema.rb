@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130708143000) do
+ActiveRecord::Schema.define(version: 20130709141521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,8 @@ ActiveRecord::Schema.define(version: 20130708143000) do
     t.datetime "updated_at"
     t.boolean  "active",      default: true, null: false
   end
+
+  add_index "securities", ["symbol"], name: "index_securities_on_symbol", using: :btree
 
   add_foreign_key "securities", "exchanges", :name => "securities_exchange_id_fk", :dependent => :delete
 
