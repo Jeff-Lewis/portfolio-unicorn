@@ -23,3 +23,6 @@
 
 #Ignore CTags
 .tags*
+
+#Ignore mac stuff
+.DS_Store
