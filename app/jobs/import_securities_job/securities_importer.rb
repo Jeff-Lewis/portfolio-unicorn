@@ -88,9 +88,9 @@ class SecuritiesImporter
   end
 
   def deactivate_delisted_securities
-    securities_to_deactive = Security.where("exchange_id = (?) and symbol NOT IN (?)",@exchange.id, @all_csv_symbols)
-    securities_to_deactive.update_all({active: false})
-    @deactivated_securities = securities_to_deactive
+    securities_to_deactivate = Security.where("exchange_id = (?) and symbol NOT IN (?)",@exchange.id, @all_csv_symbols)
+    securities_to_deactivate.update_all({active: false})
+    @deactivated_securities = securities_to_deactivate
   end
 
   def clear_fields

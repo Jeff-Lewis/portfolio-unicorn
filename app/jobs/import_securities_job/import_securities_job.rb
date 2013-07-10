@@ -34,9 +34,18 @@ class ImportSecuritiesJob
   end
    
   def after(job)
-    logger.info "Created #{@importer.imported_securities.size} new securities"
-    logger.info "Updated #{@importer.updated_securities.size} existing securities"
-    logger.info "Failed to process #{@importer.failed_lines.size} lines"
+    logger.info "Import #{@exchange_name} Summary"
+    logger.info "---------------------------------"
+    logger.info "Created: #{@importer.imported_securities.size}"
+    logger.info "Updated: #{@importer.updated_securities.size}"
+    logger.info "Deactivated:#{@importer.deactivated_securities.size}"
+    @importer.deactivated_securities.each do |s|
+      logger.info "   #{s.to_s}"
+    end
+    logger.info "Failed: #{@importer.failed_lines.size}"
+    @importer.failed_lines.each do |l|
+      logger.info "   #{l.to_s}"
+    end
   end
    
   def failure(job)

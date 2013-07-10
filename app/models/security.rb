@@ -6,12 +6,16 @@
 #  symbol      :string(255)      not null
 #  name        :string(255)      not null
 #  exchange_id :integer          not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  created_at  :datetime
+#  updated_at  :datetime
+#  active      :boolean          default(TRUE), not null
 #
 
 class Security < ActiveRecord::Base
   belongs_to :exchange
+
+  scope :active, -> { where active: true }
+  scope :inactive, -> { where active: false }
 
   validates :exchange_id, presence: true
   validates :symbol, presence: true,
@@ -24,6 +28,10 @@ class Security < ActiveRecord::Base
 
   def symbol=(symbol)
     write_attribute(:symbol, symbol.nil? ? symbol : symbol.downcase)
+  end
+
+  def to_s
+    "#{id} - #{symbol} - #{name}"
   end
 
   private
