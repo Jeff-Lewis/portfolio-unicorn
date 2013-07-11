@@ -30,6 +30,10 @@ class Security < ActiveRecord::Base
     write_attribute(:symbol, symbol.nil? ? symbol : symbol.downcase)
   end
 
+  def qualified_name
+    "#{exchange.name.upcase}:#{symbol.upcase}"
+  end
+
   def to_s
     "#{id} - #{symbol} - #{name}"
   end

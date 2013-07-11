@@ -54,5 +54,8 @@ Portfolio::Application.routes.draw do
   #     resources :products
   #   end
 
-  resources :exchanges, only: [:index, :show]
+  resources :exchanges, only: [:index], shallow: true do
+    resources :securities, only: [:index, :show]
+  end
+
 end

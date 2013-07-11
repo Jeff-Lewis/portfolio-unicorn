@@ -57,4 +57,9 @@ describe Security do
           expect(duplicate_symbol_security).to be_valid
         end
     end
+
+    it "has a qualified name combining exchange name and symbol" do
+      security = FactoryGirl.create(:security)
+      expect(security.qualified_name).to eq("#{security.exchange.name.upcase}:#{security.symbol.upcase}")
+    end
 end
