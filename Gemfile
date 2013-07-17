@@ -65,6 +65,7 @@ end
 group :development, :test do 
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'rspec-http'
 end
 
 group :test do

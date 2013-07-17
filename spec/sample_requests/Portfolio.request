@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>baseURL</key>
-	<string>http://localhost:5000/api/users/sign_in</string>
+	<string>http://localhost:5000/api/users/</string>
 	<key>bodyString</key>
 	<string>{
   "user":{
