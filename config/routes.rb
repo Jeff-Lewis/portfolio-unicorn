@@ -1,9 +1,14 @@
 Portfolio::Application.routes.draw do
-  devise_for :users
+
+  #Admin interface, html
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  
   root 'home#index'
+
+  #Api routes
+  namespace :api, defaults: {format: 'json'} do
+    devise_for :users
+  end  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -59,9 +64,5 @@ Portfolio::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-
-  resources :exchanges, only: [:index], shallow: true do
-    resources :securities, only: [:index, :show]
-  end
 
 end
