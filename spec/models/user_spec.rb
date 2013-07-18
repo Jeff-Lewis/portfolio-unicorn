@@ -60,6 +60,10 @@ describe User do
       expect(FactoryGirl.build(:user, username: 'Joe')).not_to be_valid
     end
   end
+
+  it "generates an authentication token when saving" do
+    expect(FactoryGirl.create(:user).authentication_token).not_to be_nil
+  end
   
 
 end
