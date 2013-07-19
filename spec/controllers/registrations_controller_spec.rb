@@ -5,7 +5,6 @@ describe Api::RegistrationsController do
   #needed by devise because we are bypassing the router and calling controller methods directly
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:api_user]
-    @request.accept = "application/json"
   end
 
   describe "POST #create" do
