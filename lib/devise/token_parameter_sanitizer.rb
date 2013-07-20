@@ -1,4 +1,4 @@
-class User::ParameterSanitizer < Devise::ParameterSanitizer
+class Devise::TokenParameterSanitizer < Devise::ParameterSanitizer
   
   #allow assignement of username on top of what Devise normally allows
   def sign_up

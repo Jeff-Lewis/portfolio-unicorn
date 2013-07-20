@@ -8,7 +8,9 @@
 	<string>{
   "user":{
 	  "email": "grimaultjulien@gmail.com",
-	  "password": "qwerty123"
+	  "password": "qwerty123",
+	  "password_confirmation": "qwerty123",
+	  "username": "julien"
 	}
 }</string>
 	<key>followRedirect</key>
