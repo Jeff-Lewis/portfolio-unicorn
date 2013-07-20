@@ -1,2 +1,2 @@
-object @api_user
+object @user
 extends 'users/user'

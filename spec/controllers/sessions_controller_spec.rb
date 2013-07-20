@@ -3,14 +3,14 @@ require 'spec_helper'
 describe Api::SessionsController do
   render_views
   before(:each) do
-    @request.env["devise.mapping"] = Devise.mappings[:api_user]
+    @request.env["devise.mapping"] = Devise.mappings[:user]
     @user = FactoryGirl.create(:user)
   end
 
   context "POST #create" do
     context "valid credentials" do
       before(:each) do
-        post :create, api_user: {email: @user.email, password: @user.password}, format: :json
+        post :create, user: {email: @user.email, password: @user.password}, format: :json
       end
 
       it "returns 201 created" do
@@ -27,7 +27,7 @@ describe Api::SessionsController do
 
     context "invalid credentials" do
       it "returns 401 unauthorized" do
-        post :create, api_user: {email: @user.email, password: 'incorrect'}, format: :json
+        post :create, user: {email: @user.email, password: 'incorrect'}, format: :json
         expect(response).to be_unauthorized
       end
     end

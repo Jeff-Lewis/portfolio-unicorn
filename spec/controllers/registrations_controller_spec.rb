@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Api::RegistrationsController do
   render_views
   before(:each) do
-    @request.env["devise.mapping"] = Devise.mappings[:api_user]
+    @request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
   let(:valid_user) { {user: FactoryGirl.attributes_for(:user), format: :json} }

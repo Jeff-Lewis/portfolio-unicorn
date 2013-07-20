@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Api::PortfoliosController do
   render_views
   before(:each) do
-    @request.env["devise.mapping"] = Devise.mappings[:api_user]
+    @request.env["devise.mapping"] = Devise.mappings[:user]
     @user = FactoryGirl.create(:user)
     sign_in @user
   end
@@ -14,7 +14,7 @@ describe Api::PortfoliosController do
         get :index, user_id: @user
       end
 
-      it "assigns the requested contact to @user" do
+      it "assigns the requested portfolios to @portfolios" do
         expect(assigns(:portfolios)).to eq(@user.portfolios)
       end
 
@@ -32,10 +32,10 @@ describe Api::PortfoliosController do
     context "Accessing own portfolio" do
       before(:each) do
         @selected_portfolio = @user.portfolios.sample
-        get :show, id: @selected_portfolio
+        get :show, id: @selected_portfolio.id
       end
 
-      it "assigns the requested contact to @user" do
+      it "assigns the requested portfolio to @portfolio" do
         expect(assigns(:portfolio)).to eq(@selected_portfolio)
       end
 

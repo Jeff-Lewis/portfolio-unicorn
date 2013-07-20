@@ -1,11 +1,11 @@
 class Api::PortfoliosController < Api::AuthenticatedController
+  load_and_authorize_resource :user
+  load_and_authorize_resource :portfolio, through: :user, shallow: true
 
   def index
-    user = User.find(params[:user_id]) if params[:user_id]
-    @portfolios = user.portfolios
+    @portfolios = @user.portfolios
   end
 
   def show
-    @portfolio = Portfolio.find(params[:id]) if params[:id]
   end
 end

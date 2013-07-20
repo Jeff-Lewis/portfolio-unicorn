@@ -7,9 +7,13 @@ IPortfolio::Application.routes.draw do
   ActiveAdmin.routes(self)
   root 'home#index'
 
+  
+  #note, we do not put the devise_for call inside the namespace as it would 
+  #affect the helpers generated (current_user would become current_api_user)
+  devise_for :users, path: "api/users" , module: 'api'
+
   #Api routes
   namespace :api, defaults: {format: 'json'} do
-    devise_for :users
     resources :users, only: [:show] do
      resources :portfolios, only: [:index, :show], shallow: true
     end
