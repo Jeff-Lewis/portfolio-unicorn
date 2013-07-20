@@ -1,4 +1,4 @@
-Portfolio::Application.routes.draw do
+IPortfolio::Application.routes.draw do
 
   #Admin interface, html
   devise_for :admin_users, ActiveAdmin::Devise.config

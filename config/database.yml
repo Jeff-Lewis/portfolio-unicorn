@@ -17,7 +17,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: portfolio_development
+  database: iportfolio_development
   host: localhost
   pool: 5
   username: julien
@@ -47,7 +47,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: portfolio_test
+  database: iportfolio_test
   host: localhost
   pool: 5
   username: julien

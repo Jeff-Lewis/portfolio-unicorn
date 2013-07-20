@@ -1,12 +1,6 @@
 ActiveAdmin.register Security do
 
   scope :all, default: true
-  # 1 scope per exchange
-  Exchange.all.each do |exchange|
-    scope exchange.name.upcase do |securities|
-      securities.where(:exchange_id => exchange.id)
-    end
-  end
 
   index do
     column :id
