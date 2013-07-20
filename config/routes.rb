@@ -1,5 +1,7 @@
 IPortfolio::Application.routes.draw do
 
+  resources :portfolios
+
   #Admin interface, html
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -8,6 +10,9 @@ IPortfolio::Application.routes.draw do
   #Api routes
   namespace :api, defaults: {format: 'json'} do
     devise_for :users
+    resources :users, only: [:show] do
+     resources :portfolios, only: [:index, :show], shallow: true
+    end
   end  
 
   # The priority is based upon order of creation: first created -> highest priority.

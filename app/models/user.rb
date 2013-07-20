@@ -22,6 +22,8 @@
 class User < ActiveRecord::Base
   before_save :ensure_authentication_token
 
+  has_many :portfolios
+
   # Include default devise modules. Others available are:
   # :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -31,4 +33,11 @@ class User < ActiveRecord::Base
   validates :username, presence: true, 
                        uniqueness: { case_sensitive: false },
                        length: { minimum: 2 }
+  
+  after_create :create_default_portfolio
+
+  private
+    def create_default_portfolio
+      self.portfolios.create(name: 'Master Portfolio')
+    end
 end
