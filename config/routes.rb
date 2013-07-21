@@ -1,7 +1,5 @@
 IPortfolio::Application.routes.draw do
 
-  resources :portfolios
-
   #Admin interface, html
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -14,8 +12,8 @@ IPortfolio::Application.routes.draw do
 
   #Api routes
   namespace :api, defaults: {format: 'json'} do
-    resources :users, only: [:show] do
-     resources :portfolios, only: [:index, :show], shallow: true
+    resources :users, only: [:show], shallow: true do
+      resources :portfolios, only: [:index, :show] 
     end
   end  
 

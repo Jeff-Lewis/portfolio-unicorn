@@ -21,6 +21,9 @@ gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
 gem 'inherited_resources', github: 'josevalim/inherited_resources'
 gem 'formtastic', github: 'justinfrench/formtastic'
 
+# represent money
+gem 'money-rails'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 

@@ -1,16 +1,3 @@
-# == Schema Information
-#
-# Table name: securities
-#
-#  id          :integer          not null, primary key
-#  symbol      :string(255)      not null
-#  name        :string(255)      not null
-#  exchange_id :integer          not null
-#  created_at  :datetime
-#  updated_at  :datetime
-#  active      :boolean          default(TRUE), not null
-#
-
 require 'spec_helper'
 
 describe Security do
