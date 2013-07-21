@@ -27,6 +27,9 @@ module IPortfolio
 
     config.autoload_paths += Dir["#{config.root}/app/jobs/**/","#{config.root}/lib/**/"]
     
+    config.action_dispatch.rescue_responses["CanCan::AccessDenied"] = :forbidden
+    config.exceptions_app = self.routes
+
     config.generators do |g|
         g.test_framework :rspec,
             :fixtures => true,
