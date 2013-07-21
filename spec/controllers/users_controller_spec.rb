@@ -7,6 +7,7 @@ describe Api::UsersController do
     @user = FactoryGirl.create(:user)
     sign_in @user
   end
+  let(:json) { response.body }
 
   describe "GET #show" do
     context "Accessing own profile" do
@@ -26,6 +27,11 @@ describe Api::UsersController do
     end
   end
 
-  it "prevents access to another user profile"
+  it "prevents access to another user profile" do
+    user2 = FactoryGirl.create(:user)
+    expect {
+      get :show, id: user2
+      }.to raise_error(CanCan::AccessDenied)
+  end
 
 end

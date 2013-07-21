@@ -8,7 +8,8 @@ describe Api::RegistrationsController do
 
   let(:valid_user) { {user: FactoryGirl.attributes_for(:user), format: :json} }
   let(:invalid_user) { {user: FactoryGirl.attributes_for(:invalid_user), format: :json} }
-
+  let(:json) { response.body }
+  
   describe "POST #create" do
    context "with valid attributes" do
       it "saves the new contact in the database" do
@@ -47,7 +48,7 @@ describe Api::RegistrationsController do
         end
 
         it "contains the errors" do
-          expect(response).to have_json_key(:errors)
+          expect(json).to have_json_path('errors')
         end
       end
     end

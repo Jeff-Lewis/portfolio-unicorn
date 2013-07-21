@@ -73,6 +73,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'rspec-http'
+  gem 'json_spec'
 end
 
 group :test do

@@ -2,36 +2,37 @@ require 'spec_helper'
 
 describe Api::PortfoliosController do
   render_views
+  let(:user) { FactoryGirl.create(:user) }
+  let(:json) { response.body }
+
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    @user = FactoryGirl.create(:user)
-    sign_in @user
+    sign_in user
   end
+
 
   describe "GET #index" do
     context "Accessing own portfolios" do
       before(:each) do
-        get :index, user_id: @user
+        get :index, user_id: user
       end
 
       it "assigns the requested portfolios to @portfolios" do
-        expect(assigns(:portfolios)).to eq(@user.portfolios)
+        expect(assigns(:portfolios)).to eq(user.portfolios)
       end
 
       it "renders the :index template" do
         expect(response).to render_template('index')
       end
 
-      it_behaves_like "an array of json serialized portfolios response"
+      it_behaves_like "an array of json serialized portfolios response", 1
     end
-
-    it "return 401 when acceessing another user's portfolios"
   end
 
   describe "GET #show" do
     context "Accessing own portfolio" do
       before(:each) do
-        @selected_portfolio = @user.portfolios.sample
+        @selected_portfolio = user.portfolios.sample
         get :show, id: @selected_portfolio.id
       end
 
@@ -47,5 +48,10 @@ describe Api::PortfoliosController do
     end
   end
 
-  it "prevents access to another user's portfolio"
+  it "prevents access to another user's portfolio" do
+    user2 = FactoryGirl.create(:user)
+    expect {
+      get :show, id: user2.portfolios.sample
+      }.to raise_error(CanCan::AccessDenied)
+  end
 end

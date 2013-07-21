@@ -6,6 +6,7 @@ describe Api::SessionsController do
     @request.env["devise.mapping"] = Devise.mappings[:user]
     @user = FactoryGirl.create(:user)
   end
+  let(:json) { response.body }
 
   context "POST #create" do
     context "valid credentials" do
