@@ -23,6 +23,7 @@ class Security < ActiveRecord::Base
                                     case_sensitive: false,
                                     message: "Security symbol should be unique per exchange" }
   validates :name, presence: true
+  validates :active, :inclusion => { :in => [true, false] }
 
   before_save :lower_case_fields
 
