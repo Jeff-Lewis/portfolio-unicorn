@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130721031720) do
+ActiveRecord::Schema.define(version: 20130722150052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,12 +71,16 @@ ActiveRecord::Schema.define(version: 20130721031720) do
     t.datetime "updated_at"
   end
 
+  add_index "exchanges", ["name"], name: "index_exchanges_on_name", unique: true, using: :btree
+
   create_table "portfolios", force: true do |t|
     t.string   "name"
     t.integer  "user_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "portfolios", ["user_id"], name: "index_portfolios_on_user_id", using: :btree
 
   create_table "positions", force: true do |t|
     t.integer  "portfolio_id",                       null: false
@@ -88,6 +92,9 @@ ActiveRecord::Schema.define(version: 20130721031720) do
     t.datetime "updated_at"
   end
 
+  add_index "positions", ["portfolio_id"], name: "index_positions_on_portfolio_id", using: :btree
+  add_index "positions", ["security_id"], name: "index_positions_on_security_id", using: :btree
+
   create_table "securities", force: true do |t|
     t.string   "symbol",                     null: false
     t.string   "name",                       null: false
@@ -97,7 +104,8 @@ ActiveRecord::Schema.define(version: 20130721031720) do
     t.boolean  "active",      default: true, null: false
   end
 
-  add_index "securities", ["symbol"], name: "index_securities_on_symbol", using: :btree
+  add_index "securities", ["exchange_id"], name: "index_securities_on_exchange_id", using: :btree
+  add_index "securities", ["symbol", "exchange_id"], name: "index_securities_on_symbol_and_exchange_id", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
