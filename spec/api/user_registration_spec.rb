@@ -1,10 +1,7 @@
 require 'spec_helper'
 
 describe "API Registration" do
-  before(:each) do
-    header 'Accept', 'application/json'
-    header 'Content-Type', 'application/json'
-  end
+  include_context 'API'
 
   context "with invalid json" do
     let(:invalid_json) { {user: FactoryGirl.attributes_for(:invalid_user)}.to_json }
@@ -28,7 +25,7 @@ describe "API Registration" do
       post '/api/users', valid_json
     end
 
-    it "returns 201 Unprocessable entity" do
+    it "returns 201 Created" do
       expect(last_response).to be_http_created
     end
 
