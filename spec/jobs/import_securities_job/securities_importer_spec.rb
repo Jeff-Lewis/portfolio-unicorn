@@ -1,11 +1,6 @@
 require 'spec_helper'
-require 'csv_helper'
 
-RSpec.configure do |c|
-  c.include Helpers
-end
-
-describe SecuritiesImporter do
+describe SecuritiesImporter, type: :job do
   context "CSV Import New Symbol" do
     before(:each) do
       @nasdaq = FactoryGirl.create(:nasdaq)

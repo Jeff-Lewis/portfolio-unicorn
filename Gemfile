@@ -14,7 +14,7 @@ gem 'faraday'
 
 #authentication + admin pannel
 gem 'devise'
-gem 'cancan', '~> 1.6.9'
+gem 'cancan', '= 1.6.9' #use exact version as 1.6.10 has a bug making it not work properly with shallow route path
 
 gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
 gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
@@ -41,8 +41,7 @@ gem 'delayed_job_active_record', '~> 4.0.0.beta2'
 #add foreign keys to relationships
 gem 'foreigner' 
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+# Build JSON APIs
 gem 'rabl'
 gem 'oj'
 
@@ -72,8 +71,6 @@ end
 group :development, :test do 
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'rspec-http'
-  gem 'json_spec'
 end
 
 group :test do
@@ -81,4 +78,7 @@ group :test do
   gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
+  gem 'rack-test'
+  gem 'rspec-http'
+  gem 'json_spec'
 end

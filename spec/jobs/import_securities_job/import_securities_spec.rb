@@ -1,7 +1,7 @@
 require "spec_helper"
 require "exceptions"
 
-describe ImportSecuritiesJob do
+describe ImportSecuritiesJob, type: :job do
   before(:each) do
     @job = ImportSecuritiesJob.new('nasdaq')
   end

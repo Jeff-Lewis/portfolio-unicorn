@@ -1,4 +1,4 @@
-module Helpers
+module CSVHelper
   def csv_apple_valid
     header + csv_apple_row_valid
   end
@@ -19,5 +19,4 @@ module Helpers
   def header
     '"Symbol","Name","LastSale","MarketCap","ADR TSO","IPOyear","Sector","Industry","Summary Quote",' + "\n"
   end
-
 end

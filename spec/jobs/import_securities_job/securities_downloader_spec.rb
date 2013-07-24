@@ -1,7 +1,7 @@
 require "spec_helper"
 require "exceptions"
 
-describe SecuritiesDownloader do
+describe SecuritiesDownloader, type: :job do
   def test_connection
     @test_connection ||= Faraday.new do |builder|
       builder.request :url_encoded

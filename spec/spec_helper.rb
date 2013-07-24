@@ -5,6 +5,7 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'rspec/http'
 require 'cancan/matchers'
+
 Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each { |f| require f }
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -43,6 +44,7 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  config.include Devise::TestHelpers, :type => :controller
   config.include JsonSpec::Helpers
+  config.include ApiHelper, type: :request
+  config.include CSVHelper, type: :job
 end
