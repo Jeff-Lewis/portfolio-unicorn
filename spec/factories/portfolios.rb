@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :portfolio do
-    name Faker::Lorem.word
+    sequence(:name) {|n| "Portfolio #{n}"}
     user
   end
 end
