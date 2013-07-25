@@ -8,5 +8,6 @@ class Ability
     #User can do everything on what they own
     can :manage, User, id: user.id
     can :manage, Portfolio, user_id: user.id
+    can :read, Position, portfolio: { user_id: user.id }
   end
 end

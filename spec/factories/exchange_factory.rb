@@ -12,7 +12,7 @@ require 'faker'
 
 FactoryGirl.define do 
   factory :exchange do
-    name { %w(nasdaq lse nyse otcbb sgx).sample }
+    sequence(:name) {|n| %w(nasdaq lse nyse otcbb sgx).at(n % 5)}
   end
 
   factory :nasdaq, class: Exchange do

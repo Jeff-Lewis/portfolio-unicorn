@@ -13,8 +13,14 @@ IPortfolio::Application.routes.draw do
   #Api routes
   namespace :api, defaults: {format: 'json'} do
     resources :users, only: [:show], shallow: true do
-      resources :portfolios, only: [:index, :show] 
+      resources :portfolios, only: [:index] 
     end
+
+    resources :portfolios, only: [:show] do
+      resources :positions, only: [:index]
+    end
+
+    resources :positions, only: [:show]
   end  
 
   match '(errors)/:status', to: 'errors#show', constraints: {status: /\d{3}/}, via: :all

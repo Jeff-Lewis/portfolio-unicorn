@@ -20,7 +20,7 @@ FactoryGirl.define do
           (0...5).map{ o[rand(o.length)] }.join
       end
 
-      name Faker::Company.name
+      sequence(:name) {|n| "Company_#{n}"}
       exchange
   end
 
