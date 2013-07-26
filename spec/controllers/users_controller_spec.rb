@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::UsersController do
-  render_views
+  
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:user]
     @user = FactoryGirl.create(:user)
@@ -22,8 +22,6 @@ describe Api::UsersController do
       it "renders the :show template" do
         expect(response).to render_template('show')
       end
-
-      it_behaves_like "a json serialized user response"
     end
   end
 

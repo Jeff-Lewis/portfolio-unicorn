@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::SessionsController do
-  render_views
+  
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:user]
     @user = FactoryGirl.create(:user)
@@ -22,8 +22,6 @@ describe Api::SessionsController do
         @user.reload
         expect(@user.authentication_token).not_to be_nil
       end
-
-      it_behaves_like "a json serialized user response"
     end
 
     context "invalid credentials" do

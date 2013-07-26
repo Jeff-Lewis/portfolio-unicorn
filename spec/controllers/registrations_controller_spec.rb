@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::RegistrationsController do
-  render_views
+  
   before(:each) do
     @request.env["devise.mapping"] = Devise.mappings[:user]
   end
@@ -18,16 +18,9 @@ describe Api::RegistrationsController do
         }.to change(User, :count).by(1)
       end
 
-      context "JSON Output" do
-        before(:each) do
-          post :create, valid_user
-        end
-
-        it "returns 201 created" do
-          expect(response).to be_created
-        end
-
-        it_behaves_like "a json serialized user response"
+      it "returns 201 created" do
+        post :create, valid_user
+        expect(response).to be_created
       end
     end
     
@@ -37,19 +30,10 @@ describe Api::RegistrationsController do
           post :create, invalid_user
         }.not_to change(User, :count)
       end
-
-      context "JSON Output" do
-        before(:each) do
-          post :create, invalid_user
-        end
         
-        it "return 422 unprocessable entity" do 
-          expect(response).to be_unprocessable_entity
-        end
-
-        it "contains the errors" do
-          expect(json).to have_json_path('errors')
-        end
+      it "return 422 unprocessable entity" do 
+        post :create, invalid_user
+        expect(response).to be_unprocessable_entity
       end
     end
   end

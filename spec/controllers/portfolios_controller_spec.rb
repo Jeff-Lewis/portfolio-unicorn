@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::PortfoliosController do
-  render_views
+  
   let(:user) { FactoryGirl.create(:user) }
   let(:json) { response.body }
 
@@ -25,33 +25,28 @@ describe Api::PortfoliosController do
         expect(response).to render_template('index')
       end
 
-      it_behaves_like "an array of json serialized portfolios response", 1
     end
   end
 
   describe "GET #show" do
-    context "Accessing own portfolio" do
-      before(:each) do
-        @selected_portfolio = user.portfolios.sample
-        get :show, id: @selected_portfolio.id
-      end
-
-      it "assigns the requested portfolio to @portfolio" do
-        expect(assigns(:portfolio)).to eq(@selected_portfolio)
-      end
-
-      it "renders the :show template" do
-        expect(response).to render_template('show')
-      end
-
-      it_behaves_like "a json serialized portfolio response"
+    before(:each) do
+      @selected_portfolio = user.portfolios.sample
+      get :show, id: @selected_portfolio.id
     end
-  end
 
-  it "prevents access to another user's portfolio" do
-    user2 = FactoryGirl.create(:user)
-    expect {
-      get :show, id: user2.portfolios.sample
-      }.to raise_error(CanCan::AccessDenied)
+    it "assigns the requested portfolio to @portfolio" do
+      expect(assigns(:portfolio)).to eq(@selected_portfolio)
+    end
+
+    it "renders the :show template" do
+      expect(response).to render_template('show')
+    end
+
+    it "prevents access to another user's portfolio" do
+      user2 = FactoryGirl.create(:user)
+      expect {
+        get :show, id: user2.portfolios.sample
+        }.to raise_error(CanCan::AccessDenied)
+    end
   end
 end

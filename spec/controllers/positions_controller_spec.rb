@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Api::PositionsController do
-  render_views
+
   let(:position) { FactoryGirl.create(:position) }
   let(:portfolio) { position.portfolio }
   
@@ -14,39 +14,30 @@ describe Api::PositionsController do
 
 
   describe "GET #index" do
-    context "Accessing own positions" do
-      before(:each) do
-        FactoryGirl.create(:position, portfolio: portfolio)
-        get :index, portfolio_id: portfolio
-      end
+    before(:each) do
+      get :index, portfolio_id: portfolio
+    end
 
-      it "assigns the requested positions to @positions" do
-        expect(assigns(:positions)).to eq(portfolio.positions)
-      end
+    it "assigns the requested positions to @positions" do
+      expect(assigns(:positions)).to eq(portfolio.positions)
+    end
 
-      it "renders the :index template" do
-        expect(response).to render_template('index')
-      end
-
-      it_behaves_like "a json Positions array with count=", 2
+    it "renders the :index template" do
+      expect(response).to render_template('index')
     end
   end
 
   describe "GET #show" do
-    context "Accessing own position" do
-      before(:each) do
-        get :show, id: position
-      end
+    before(:each) do
+      get :show, id: position
+    end
 
-      it "assigns the requested position to @position" do
-        expect(assigns(:position)).to eq(position)
-      end
+    it "assigns the requested position to @position" do
+      expect(assigns(:position)).to eq(position)
+    end
 
-      it "renders the :show template" do
-        expect(response).to render_template('show')
-      end
-
-      it_behaves_like "a json position"
+    it "renders the :show template" do
+      expect(response).to render_template('show')
     end
   end
 
