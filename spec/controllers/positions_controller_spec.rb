@@ -47,4 +47,14 @@ describe Api::PositionsController do
       get :show, id: someone_else_position
       }.to raise_error(CanCan::AccessDenied)
   end
+
+   describe "POST #create" do
+  end
+
+  describe "PATCH #update" do
+    it "can update quantity"
+    it "can update avg_price"
+    it "cannot update security"
+    it "cannot update portfolio"
+  end
 end
