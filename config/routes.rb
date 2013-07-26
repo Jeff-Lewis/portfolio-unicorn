@@ -13,7 +13,7 @@ IPortfolio::Application.routes.draw do
   #Api routes
   namespace :api, defaults: {format: 'json'} do
     resources :users, only: [:show], shallow: true do
-      resources :portfolios, only: [:index] 
+      resources :portfolios, only: [:index, :create] 
     end
 
     resources :portfolios, only: [:show] do
