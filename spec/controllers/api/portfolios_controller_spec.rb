@@ -66,6 +66,11 @@ describe Api::PortfoliosController do
         post :create, user_id: user, portfolio: valid_attributes, format: :json
         expect(response).to be_created
       end
+
+      it "renders the :create template" do
+        post :create, user_id: user, portfolio: valid_attributes, format: :json
+        expect(response).to render_template('create')
+      end
     end
 
     context "invalid user_id assignement" do
@@ -95,9 +100,19 @@ describe Api::PortfoliosController do
   end
 
   describe "PATCH #update" do
-    it "can update the name" do
-      patch :update, id: portfolio, portfolio: { name: "new name" }, format: :json
-      expect(portfolio.reload.name).to eq("new name")
+
+    context "Successfull update" do
+      before(:each) do
+        patch :update, id: portfolio, portfolio: { name: "new name" }, format: :json
+      end
+      
+      it "can update the name" do
+        expect(portfolio.reload.name).to eq("new name")
+      end 
+
+      it "renders the :update template" do
+        expect(response).to render_template('update')
+      end
     end
 
     it "cannot update the user" do
