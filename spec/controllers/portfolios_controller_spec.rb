@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Api::PortfoliosController do
 
   let(:user) { FactoryGirl.create(:user) }
+  let(:portfolio) {user.portfolios.sample}
   let(:json) { response.body }
 
   before(:each) do
@@ -31,12 +32,11 @@ describe Api::PortfoliosController do
   describe "GET #show" do
     context "Acessing own portfolio" do
       before(:each) do
-        @selected_portfolio = user.portfolios.sample
-        get :show, id: @selected_portfolio.id
+        get :show, id: portfolio
       end
 
       it "assigns the requested portfolio to @portfolio" do
-        expect(assigns(:portfolio)).to eq(@selected_portfolio)
+        expect(assigns(:portfolio)).to eq(portfolio)
       end
 
       it "renders the :show template" do
@@ -95,9 +95,28 @@ describe Api::PortfoliosController do
   end
 
   describe "PATCH #update" do
-    it "can update the name"
-    it "cannot update the user"
-    it "cannot update the postions"
-    it "cannot update someone else's portfolio"
+    it "can update the name" do
+      patch :update, id: portfolio, portfolio: { name: "new name" }, format: :json
+      expect(portfolio.reload.name).to eq("new name")
+    end
+
+    it "cannot update the user" do
+      other_user = FactoryGirl.create(:user)
+      patch :update, id: portfolio, portfolio: { name: 'invalid portfolio', user_id: other_user.id }, format: :json
+      expect(portfolio.reload.user).to eq(user)
+    end
+
+    it "cannot update the postions" do
+      FactoryGirl.create(:position, portfolio: portfolio)
+      patch :update, id: portfolio, portfolio: { name: 'invalid portfolio', positions: [] }, format: :json
+      expect(portfolio.reload.positions).to have(1).items
+    end
+
+    it "cannot update someone else's portfolio" do
+      portfolio2 = FactoryGirl.create(:user).portfolios.sample
+      expect {
+        patch :update, id: portfolio2, portfolio: { name: "new name" }, format: :json
+      }.to raise_error(CanCan::AccessDenied)
+    end
   end
 end

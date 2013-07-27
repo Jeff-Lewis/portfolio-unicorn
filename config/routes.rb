@@ -16,7 +16,7 @@ IPortfolio::Application.routes.draw do
       resources :portfolios, only: [:index, :create] 
     end
 
-    resources :portfolios, only: [:show] do
+    resources :portfolios, only: [:show, :update] do
       resources :positions, only: [:index]
     end
 

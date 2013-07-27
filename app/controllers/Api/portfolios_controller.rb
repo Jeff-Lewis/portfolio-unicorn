@@ -15,6 +15,11 @@ class Api::PortfoliosController < Api::AuthenticatedController
     respond_with(@portfolio)
   end
 
+  def update
+    @portfolio.update_attributes(portfolio_params)
+    respond_with(@portfolio)
+  end
+
   private
     def portfolio_params
       params.require(:portfolio).permit(:name) unless request.get?
