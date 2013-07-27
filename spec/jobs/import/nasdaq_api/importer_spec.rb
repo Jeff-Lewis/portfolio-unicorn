@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SecuritiesImporter, type: :job do
+describe Import::NasdaqApi::Importer, type: :job do
   context "CSV Import New Symbol" do
     before(:each) do
       @nasdaq = FactoryGirl.create(:nasdaq)
@@ -8,7 +8,7 @@ describe SecuritiesImporter, type: :job do
 
     context "Import Valid CSV" do
       before(:each) do
-        @importer = SecuritiesImporter.new(@nasdaq.name, csv_apple_valid)
+        @importer = Import::NasdaqApi::Importer.new(@nasdaq.name, csv_apple_valid)
         @importer.import
       end
 
@@ -35,7 +35,7 @@ describe SecuritiesImporter, type: :job do
 
     context "Not Valid CSV" do
       before(:each) do
-        @importer = SecuritiesImporter.new(@nasdaq.name, csv_apple_not_valid_empty_symbol)
+        @importer = Import::NasdaqApi::Importer.new(@nasdaq.name, csv_apple_not_valid_empty_symbol)
         @importer.import
       end
 
@@ -61,7 +61,7 @@ describe SecuritiesImporter, type: :job do
 
     context "Valid CSV" do
       before(:each) do
-        @importer = SecuritiesImporter.new(@nasdaq.name, csv_apple_valid)
+        @importer = Import::NasdaqApi::Importer.new(@nasdaq.name, csv_apple_valid)
         @importer.import
       end
 
@@ -82,7 +82,7 @@ describe SecuritiesImporter, type: :job do
     context "Previously Deactived Security" do
       before(:each) do
         @apple.update_attributes(active: false)
-        @importer = SecuritiesImporter.new(@nasdaq.name, csv_apple_valid)
+        @importer = Import::NasdaqApi::Importer.new(@nasdaq.name, csv_apple_valid)
         @importer.import
       end
       it "reactivates the security" do
@@ -96,7 +96,7 @@ describe SecuritiesImporter, type: :job do
 
     context "Not valid CSV" do
       before(:each) do
-        @importer = SecuritiesImporter.new(@nasdaq.name, csv_apple_not_valid_empty_symbol)
+        @importer = Import::NasdaqApi::Importer.new(@nasdaq.name, csv_apple_not_valid_empty_symbol)
         @importer.import
       end
 
@@ -117,7 +117,7 @@ describe SecuritiesImporter, type: :job do
   context "Identical CSV" do
     it "does not save the security again" do
       apple = FactoryGirl.create(:aapl, name: "Apple Inc.")
-      importer = SecuritiesImporter.new(apple.exchange.name, csv_apple_valid)
+      importer = Import::NasdaqApi::Importer.new(apple.exchange.name, csv_apple_valid)
       importer.import
       expect(importer.updated_securities.size).to eq(0)
     end
@@ -126,7 +126,7 @@ describe SecuritiesImporter, type: :job do
   context "CSV Deactivate Delisted Symbols" do
     before(:each) do
       @microsoft = FactoryGirl.create(:msft)
-      @importer = SecuritiesImporter.new(@microsoft.exchange.name, csv_apple_valid)
+      @importer = Import::NasdaqApi::Importer.new(@microsoft.exchange.name, csv_apple_valid)
       @importer.import
     end
     it "deactivate existing security not in the csv" do
