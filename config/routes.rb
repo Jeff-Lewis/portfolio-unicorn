@@ -11,7 +11,7 @@ IPortfolio::Application.routes.draw do
   devise_for :users, path: "api/users" , module: 'api'
 
   #Api routes
-  namespace :api, defaults: {format: 'json'} do
+  namespace :api, defaults: {format: 'json'}, constraints: { format: 'json'} do
     resources :users, only: [:show], shallow: true do
       resources :portfolios, only: [:index, :create] 
     end

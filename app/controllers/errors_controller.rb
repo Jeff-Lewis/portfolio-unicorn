@@ -1,12 +1,9 @@
 class ErrorsController < ActionController::Base
-
+  respond_to :json
   def show
     @exception = env["action_dispatch.exception"]
     @status_code = ActionDispatch::ExceptionWrapper.new(env, @exception).status_code
-    respond_to do |format|
-      format.html { render action: request.path[1..-1] }
-      format.json { render json: error_json, status: @status_code }
-    end
+    render json: error_json, status: @status_code
   end
 
   private
