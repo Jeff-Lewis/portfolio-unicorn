@@ -1,6 +1,4 @@
-class Api::PortfoliosController < Api::AuthenticatedController
-  before_filter :new_portfolio, :only => [:create]
-
+class Api::PortfoliosController < Api::AuthenticatedController  
   load_and_authorize_resource :user
   load_and_authorize_resource :portfolio, through: :user, shallow: true
 
@@ -12,16 +10,14 @@ class Api::PortfoliosController < Api::AuthenticatedController
   end
 
   def create
-    @portfolio.user = current_user
+    @portfolio.user = @user
+    @portfolio.save
+    respond_with(@portfolio)
   end
 
   private
-    def new_portfolio
-      @portfolio = Portfolio.new(portfolio_params)
-    end
-
     def portfolio_params
-      params.require(:portfolio).permit(:name)
+      params.require(:portfolio).permit(:name) unless request.get?
     end
 
 end
