@@ -3,6 +3,8 @@ require 'exceptions'
 
 module Nasdaq
   class Importer
+    include Loggable
+    
     attr_reader :exchange
     attr_reader :csv_data
     attr_reader :imported_securities
@@ -16,7 +18,6 @@ module Nasdaq
 
       @csv_data = csv_data
       @rows = CSV.parse(@csv_data);
-      @mapper = Mapper.new(@rows[0])
       clear_fields
     end
 
@@ -30,49 +31,25 @@ module Nasdaq
 
     private
     def process_row(row)
-      symbol = row[0].downcase
-      logger.info "processing symbol #{symbol}"
-      security = Security.find_by(exchange: @exchange, symbol: symbol)
-      @all_csv_symbols << symbol
+      importer = ImporterIndividual.new(@exchange, row)
+      security = importer.import
 
-      if security.nil?
-        import_new_security(row)
-      else
-        update_existing_security(security, row)
-      end
-    end
+      @all_csv_symbols << importer.symbol
+      case importer.status
+      when :created
+        logger.info "inserting new security: #{security.inspect}"
+        @imported_securities << security
 
-    def import_new_security(row)
-      security = Security.new(@mapper.attributes_for(row))
-      security.exchange_id = @exchange.id
-      logger.info "inserting new security: #{security.inspect}"
-      try_save(security, row)
-    end
+      when :updated
+        logger.info "updating existing security: #{security.inspect}"
+        @updated_securities << security
 
-    def update_existing_security(security, row)
-      security.attributes = @mapper.attributes_for(row)
-      unless security.active?
-        security.active = true
-      end
-      logger.info "updating existing security: #{security.inspect}"
-      try_save(security, row)
-    end
-
-    def try_save(security, row)
-      container = case
-      when security.new_record?
-        @imported_securities
-      when security.changed?
-        @updated_securities
-      else nil
-      end
-
-      begin
-        security.save! if security.changed?
-        container << security unless container.nil?
-      rescue ActiveRecord::ActiveRecordError => exception
-        logger.error "failed saving row...:excetion=#{exception.inspect}, row=#{row}"
+      when :failed
+        logger.error "failed saving row...:excetion=#{importer.exception.inspect}, row=#{row}"
         @failed_lines << row
+
+      when :no_changes
+        logger.info "no change for #{importer.symbol}... NOP"
       end
     end
 
@@ -88,10 +65,6 @@ module Nasdaq
       @failed_lines = []
       @all_csv_symbols = []
       @deactivated_securities = []
-    end
-
-    def logger
-      Delayed::Worker.logger
     end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130722150052) do
+ActiveRecord::Schema.define(version: 20130727152725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,14 @@ ActiveRecord::Schema.define(version: 20130722150052) do
 
   add_index "exchanges", ["name"], name: "index_exchanges_on_name", unique: true, using: :btree
 
+  create_table "industries", force: true do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "industries", ["name"], name: "index_industries_on_name", unique: true, using: :btree
+
   create_table "portfolios", force: true do |t|
     t.string   "name"
     t.integer  "user_id",    null: false
@@ -95,6 +103,15 @@ ActiveRecord::Schema.define(version: 20130722150052) do
   add_index "positions", ["portfolio_id"], name: "index_positions_on_portfolio_id", using: :btree
   add_index "positions", ["security_id"], name: "index_positions_on_security_id", using: :btree
 
+  create_table "sectors", force: true do |t|
+    t.string   "name",        null: false
+    t.integer  "industry_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sectors", ["name"], name: "index_sectors_on_name", unique: true, using: :btree
+
   create_table "securities", force: true do |t|
     t.string   "symbol",                     null: false
     t.string   "name",                       null: false
@@ -102,9 +119,11 @@ ActiveRecord::Schema.define(version: 20130722150052) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "active",      default: true, null: false
+    t.integer  "sector_id",                  null: false
   end
 
   add_index "securities", ["exchange_id"], name: "index_securities_on_exchange_id", using: :btree
+  add_index "securities", ["sector_id"], name: "index_securities_on_sector_id", using: :btree
   add_index "securities", ["symbol", "exchange_id"], name: "index_securities_on_symbol_and_exchange_id", unique: true, using: :btree
 
   create_table "users", force: true do |t|
@@ -134,6 +153,9 @@ ActiveRecord::Schema.define(version: 20130722150052) do
   add_foreign_key "positions", "portfolios", :name => "positions_portfolio_id_fk", :dependent => :delete
   add_foreign_key "positions", "securities", :name => "positions_security_id_fk", :dependent => :restrict
 
+  add_foreign_key "sectors", "industries", :name => "sectors_industry_id_fk", :dependent => :delete
+
   add_foreign_key "securities", "exchanges", :name => "securities_exchange_id_fk", :dependent => :delete
+  add_foreign_key "securities", "sectors", :name => "securities_sector_id_fk", :dependent => :nullify
 
 end

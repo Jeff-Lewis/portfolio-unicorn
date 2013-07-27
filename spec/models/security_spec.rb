@@ -49,4 +49,12 @@ describe Security do
       security = FactoryGirl.create(:security)
       expect(security.qualified_name).to eq("#{security.exchange.name.upcase}:#{security.symbol.upcase}")
     end
+
+    it "is not valid without a industry" do
+      expect(FactoryGirl.build(:security, industry: nil)).not_to be_valid
+    end
+
+    it "is not valid without a sector" do
+      expect(FactoryGirl.build(:security, sector: nil)).not_to be_valid
+    end
 end

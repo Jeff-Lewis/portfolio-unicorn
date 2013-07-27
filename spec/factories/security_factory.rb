@@ -22,17 +22,20 @@ FactoryGirl.define do
 
       sequence(:name) {|n| "Company_#{n}"}
       exchange
+      sector
   end
 
-  factory :aapl, class: Security do
+  factory :aapl, parent: :security do
     symbol "aapl"
     name "Apple"
     association :exchange, factory: :nasdaq
+    association :sector, factory: :computer_manufacturing
   end
 
-  factory :msft, class: Security do
+  factory :msft, parent: :security do
     symbol "msft"
     name "Microsoft"
     association :exchange, factory: :nasdaq
+    association :sector, factory: :computer_software
   end
 end

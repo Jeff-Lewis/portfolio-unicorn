@@ -1,12 +1,6 @@
-require 'exceptions'
-
 class Nasdaq::Job
+  include Loggable
 
-  attr_reader :exchange_name
-  attr_reader :imported_securities
-  attr_reader :updated_securities
-  attr_reader :failed_lines
-  
   def initialize(exchange_name)
     @exchange_name = exchange_name
   end
@@ -17,7 +11,7 @@ class Nasdaq::Job
 
   def perform
     logger.info "downloading csv data..."
-    csv_data = Nasdaq::client.new(@exchange_name).companies
+    csv_data = Nasdaq::Client.new(@exchange_name).companies
     logger.info "csv data downloaded..."
     logger.info "parsing csv data..."
     @importer = Nasdaq::Importer.new(@exchange_name, csv_data)
@@ -47,10 +41,5 @@ class Nasdaq::Job
   end
    
   def failure(job)
-  end
-
-  private
-  def logger
-    Delayed::Worker.logger
   end
 end

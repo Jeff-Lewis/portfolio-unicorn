@@ -5,19 +5,19 @@ class Nasdaq::Client
   end
 
   def companies
-    @companies ||= client.get(exchange_url) do |response|
-      validate_response_header(r)
+    @companies ||= client.get(exchange_path) do |response|
+      validate_response_header(response)
       response.body
     end
   end
 
-  private
-    def exchange_url
-      "screening/companies-by-industry.aspx?exchange=#{exchange_name}&render=download"
-    end
+  def exchange_path
+    "screening/companies-by-industry.aspx?exchange=#{@exchange_name}&render=download"
+  end
 
+  private
     def client
-      @client ||= Client.new("http://www.nasdaq.com/")
+      @client ||= WebServiceClient.new("http://www.nasdaq.com/")
     end
 
     def validate_response_header(response)

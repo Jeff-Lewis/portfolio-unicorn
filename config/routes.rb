@@ -1,5 +1,9 @@
 IPortfolio::Application.routes.draw do
 
+  resources :sectors
+
+  resources :industries
+
   #Admin interface, html
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

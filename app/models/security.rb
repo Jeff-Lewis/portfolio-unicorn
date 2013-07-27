@@ -12,20 +12,25 @@
 #
 
 class Security < ActiveRecord::Base
+  include InsensitiveUniqueField
+  
   belongs_to :exchange
+  belongs_to :sector
+  has_one :industry, through: :sector
 
   scope :active, -> { where active: true }
   scope :inactive, -> { where active: false }
 
   validates :exchange_id, presence: true
-  validates :symbol, presence: true,
-                      uniqueness: { scope: :exchange_id, 
-                                    case_sensitive: false,
-                                    message: "Security symbol should be unique per exchange" }
+  validates :sector_id, presence: true
+  validates :industry, presence: true
+
   validates :name, presence: true
   validates :active, :inclusion => { :in => [true, false] }
 
-  before_save :lower_case_fields
+  insensitive_unique :symbol, uniqueness: { scope: :exchange_id, 
+                                            case_sensitive: false,
+                                            message: "Security symbol should be unique per exchange" }
 
   def symbol=(symbol)
     write_attribute(:symbol, symbol.nil? ? symbol : symbol.downcase)
@@ -38,9 +43,4 @@ class Security < ActiveRecord::Base
   def to_s
     "#{id} - #{symbol} - #{name}"
   end
-
-  private
-    def lower_case_fields
-      self.symbol.downcase!
-    end
 end
