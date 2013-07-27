@@ -12,12 +12,12 @@ class Api::PortfoliosController < Api::AuthenticatedController
   def create
     @portfolio.user = @user
     @portfolio.save
-    respond_with(@portfolio)
+    respond_with @portfolio
   end
 
   def update
-    @portfolio.update_attributes(portfolio_params)
-    respond_with(@portfolio)
+    @portfolio.update!(portfolio_params)
+    respond_with @portfolio
   end
 
   private
