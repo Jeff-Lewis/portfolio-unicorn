@@ -11,6 +11,7 @@ gem 'pg'
 gem 'unicorn'
 
 gem 'faraday'
+gem 'faraday_middleware'
 
 #authentication + admin pannel
 gem 'devise'

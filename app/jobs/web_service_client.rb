@@ -1,3 +1,5 @@
+require 'faraday_middleware'
+
 class WebServiceClient
   include Loggable
 
@@ -18,6 +20,7 @@ class WebServiceClient
     @connection ||= Faraday.new (@base_url) do |faraday |
       faraday.adapter Faraday.default_adapter
       faraday.request :url_encoded
+      faraday.response :follow_redirects
       faraday.response :raise_error
       faraday.response :logger, logger
     end
