@@ -43,10 +43,13 @@ class Position < ActiveRecord::Base
     end
 
     def similar_position_exists?
-      return false if quantity.nil?
+      return false if quantity.nil? #no need to query the db if quanity is not set
 
       r = Position.where("portfolio_id = ? and security_id = ?", portfolio_id, security_id)
       r = r.where(quantity > 0 ? "quantity > 0" : "quantity < 0" )
+      unless id.nil?
+        r = r.where("id != ?", id) #dont take into account this instance.
+      end
       r.exists?
     end
 

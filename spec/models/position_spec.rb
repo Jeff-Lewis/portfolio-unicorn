@@ -31,10 +31,18 @@ describe Position do
     end
   end
 
-  it "is invalid if the portfolio already has 1 opened position on the same security" do
-    p1 = FactoryGirl.create(:position)
-    p2 = FactoryGirl.build(:position, portfolio: p1.portfolio, security: p1.security, quantity: p1.quantity)
-    expect(p2).not_to be_valid
+  describe "Single opened position per security" do
+    it "is invalid if the portfolio already has 1 opened position on the same security" do
+      p1 = FactoryGirl.create(:position)
+      p2 = FactoryGirl.build(:position, portfolio: p1.portfolio, security: p1.security, quantity: p1.quantity)
+      expect(p2).not_to be_valid
+    end
+
+    it "can update if it is an open position" do
+      p1 = FactoryGirl.create(:position)
+      p1.quantity = 12;
+      expect(p1).to be_valid
+    end
   end
 
   context "quantity validation" do

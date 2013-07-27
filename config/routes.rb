@@ -17,10 +17,10 @@ IPortfolio::Application.routes.draw do
     end
 
     resources :portfolios, only: [:show, :update] do
-      resources :positions, only: [:index]
+      resources :positions, only: [:index, :create]
     end
 
-    resources :positions, only: [:show]
+    resources :positions, only: [:show, :update]
   end  
 
   match '(errors)/:status', to: 'errors#show', constraints: {status: /\d{3}/}, via: :all
