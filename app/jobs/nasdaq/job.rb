@@ -1,6 +1,6 @@
 require 'exceptions'
 
-class ImportSecuritiesJob
+class Nasdaq::Job
 
   attr_reader :exchange_name
   attr_reader :imported_securities
@@ -17,10 +17,10 @@ class ImportSecuritiesJob
 
   def perform
     logger.info "downloading csv data..."
-    csv_data = Data::Symbol::NasdaqAPI.new(@exchange_name).companies
+    csv_data = Nasdaq::client.new(@exchange_name).companies
     logger.info "csv data downloaded..."
     logger.info "parsing csv data..."
-    @importer = Import::NasdaqAPI::Importer.new(@exchange_name, csv_data)
+    @importer = Nasdaq::Importer.new(@exchange_name, csv_data)
     @importer.import
   end
    
