@@ -9,14 +9,8 @@
 #
 
 class Exchange < ActiveRecord::Base
+  include InsensitiveUniqueField
+
   has_many :securities
-
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
-
- before_save :lower_case_fields
-
- private
-   def lower_case_fields
-     self.name.downcase!
-   end
+  insensitive_unique :name
 end
