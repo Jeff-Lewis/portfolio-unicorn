@@ -9,6 +9,9 @@ class CreateSectors < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :sectors, :name, unique: true
+    add_index :sectors, [:industry_id, :name], unique: true
+
+    unkown_industry = Industry.create(name: 'unknown')
+    Sector.create(name: 'unknown', industry: unkown_industry)
   end
 end

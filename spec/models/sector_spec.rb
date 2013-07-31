@@ -9,9 +9,18 @@ describe Sector do
     expect(FactoryGirl.build(:sector, name: nil)).not_to be_valid
   end
 
-  it "is invalid with a non unique name (case insensitive)" do
-    FactoryGirl.create(:sector, name: 'SecTOr')
-    expect(FactoryGirl.build(:sector, name: 'sector')).not_to be_valid
+  context "Unique name scoped to industry" do
+    before(:each) do
+      @sector = FactoryGirl.create(:sector, name: 'SecTOr')
+    end
+
+    it "is valid with a identifical name across different industries" do
+      expect(FactoryGirl.build(:sector, name: 'sector')).to be_valid
+    end
+
+    it "is invalid with a non unique name (case insensitive)" do
+      expect(FactoryGirl.build(:sector, industry_id: @sector.industry_id, name: 'sector')).not_to be_valid
+    end
   end
 
   it "has a lowercase name" do

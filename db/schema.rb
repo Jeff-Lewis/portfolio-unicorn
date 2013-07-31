@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 20130727152725) do
     t.datetime "updated_at"
   end
 
-  add_index "sectors", ["name"], name: "index_sectors_on_name", unique: true, using: :btree
+  add_index "sectors", ["industry_id", "name"], name: "index_sectors_on_industry_id_and_name", unique: true, using: :btree
 
   create_table "securities", force: true do |t|
     t.string   "symbol",                     null: false
