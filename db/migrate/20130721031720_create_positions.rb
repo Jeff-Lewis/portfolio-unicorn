@@ -14,7 +14,7 @@ class CreatePositions < ActiveRecord::Migration
       t.integer :quantity, null: false
 
       #average price per share, use Money type from the money gem 
-      t.money :avg_price
+      t.money :avg_price, currency: { present: false }
 
       t.timestamps
     end

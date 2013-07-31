@@ -91,11 +91,10 @@ ActiveRecord::Schema.define(version: 20130727152725) do
   add_index "portfolios", ["user_id"], name: "index_portfolios_on_user_id", using: :btree
 
   create_table "positions", force: true do |t|
-    t.integer  "portfolio_id",                       null: false
-    t.integer  "security_id",                        null: false
-    t.integer  "quantity",                           null: false
-    t.integer  "avg_price_cents",                    null: false
-    t.string   "avg_price_currency", default: "USD", null: false
+    t.integer  "portfolio_id",      null: false
+    t.integer  "security_id",       null: false
+    t.integer  "quantity",          null: false
+    t.integer  "avg_price_udollar", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

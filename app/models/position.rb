@@ -7,7 +7,6 @@
 #  security_id        :integer          not null
 #  quantity           :integer          not null
 #  avg_price_cents    :integer          default(0), not null
-#  avg_price_currency :string(255)      default("USD"), not null
 #  created_at         :datetime
 #  updated_at         :datetime
 #
@@ -22,7 +21,7 @@ class Position < ActiveRecord::Base
   validate :unique_open_position_on_portfolio
 
   #generate a avg_price property of type Money, it performs validation (see config/initializers/money.rb)
-  monetize :avg_price_cents, numericality: { greater_than: 0 }
+  monetize :avg_price_udollar, numericality: { greater_than: 0 }
 
   validates :quantity, presence: true
 
