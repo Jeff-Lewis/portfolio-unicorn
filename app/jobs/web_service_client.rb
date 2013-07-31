@@ -1,4 +1,6 @@
 class WebServiceClient
+  include Loggable
+
   def initialize(base_url)
     @base_url = base_url
   end
@@ -17,6 +19,7 @@ class WebServiceClient
       faraday.adapter Faraday.default_adapter
       faraday.request :url_encoded
       faraday.response :raise_error
+      faraday.response :logger, logger
     end
   end
 end
