@@ -17,15 +17,15 @@ describe Nasdaq::Importer, type: :job do
       end
 
       it "collects the created securities" do
-        expect(@importer.imported_securities.size).to eq(1)
+        expect(@importer.new_items.size).to eq(1)
       end
 
       it "has no failed import" do
-        expect(@importer.failed_lines.size).to eq(0)
+        expect(@importer.failed_items.size).to eq(0)
       end
 
       it "has no updated securities" do
-        expect(@importer.updated_securities.size).to eq(0)
+        expect(@importer.updated_items.size).to eq(0)
       end
 
       it "has no deactivated securities" do
@@ -44,7 +44,7 @@ describe Nasdaq::Importer, type: :job do
       end
 
       it "collects the failed imports" do
-        expect(@importer.failed_lines.length).to eq(1)
+        expect(@importer.failed_items.length).to eq(1)
       end
     end
   end
@@ -70,11 +70,11 @@ describe Nasdaq::Importer, type: :job do
       end
 
       it "collects the updated security" do
-        expect(@importer.updated_securities.length).to eq(1)
+        expect(@importer.updated_items.length).to eq(1)
       end
 
       it "updates the modified field on the security" do
-        updated_security = @importer.updated_securities[0]
+        updated_security = @importer.updated_items[0]
         expect(updated_security.name).to eq("Apple Inc.")
       end
     end
@@ -90,7 +90,7 @@ describe Nasdaq::Importer, type: :job do
       end
 
       it "collects the reactivated security" do
-        expect(@importer.updated_securities.size).to eq(1)
+        expect(@importer.updated_items.size).to eq(1)
       end
     end
 
@@ -109,7 +109,7 @@ describe Nasdaq::Importer, type: :job do
       end
 
       it "collects the failed imports" do
-        expect(@importer.failed_lines.length).to eq(1)
+        expect(@importer.failed_items.length).to eq(1)
       end
     end
   end
@@ -119,7 +119,7 @@ describe Nasdaq::Importer, type: :job do
       apple = FactoryGirl.create(:aapl, name: "Apple Inc.")
       importer = Nasdaq::Importer.new(apple.exchange.name, csv_apple)
       importer.import
-      expect(importer.updated_securities.size).to eq(0)
+      expect(importer.updated_items.size).to eq(0)
     end
   end
 

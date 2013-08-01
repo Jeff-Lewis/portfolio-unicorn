@@ -28,13 +28,13 @@ class Nasdaq::Job
   def after(job)
     logger.info "Import #{@exchange_name} Summary"
     logger.info "---------------------------------"
-    logger.info "Created: #{@importer.imported_securities.size}"
-    logger.info "Updated: #{@importer.updated_securities.size}"
+    logger.info "Created: #{@importer.new_items.size}"
+    logger.info "Updated: #{@importer.updated_items.size}"
     logger.info "Deactivated:#{@importer.deactivated_securities.size}"
     @importer.deactivated_securities.each do |s|
-      logger.info "   #{s.to_s}"
+      logger.info "   #{s.inspect}"
     end
-    logger.info "Failed: #{@importer.failed_lines.size}"
+    logger.info "Failed: #{@importer.failed_items.size}"
     @importer.failed_lines.each do |l|
       logger.info "   #{l.to_s}"
     end
