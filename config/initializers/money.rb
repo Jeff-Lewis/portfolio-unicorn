@@ -41,6 +41,7 @@ MoneyRails.configure do |config|
                            postfix: '_udollar',    # column name  postfix
                            column_name: nil,     # full column name (overrides prefix, postfix and accessor name)
                            type: :integer,       # column type
+                           limit: 8,             # 64 bits
                            present: true,        # column will be created
                            null: false,          # other options will be treated as column options
                            default: nil
