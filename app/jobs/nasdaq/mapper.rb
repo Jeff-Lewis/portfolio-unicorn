@@ -40,7 +40,7 @@ class Nasdaq::Mapper
 
     def mapping
       @@mapping ||= {
-        symbol: {csv_col: 0 , transform: ->(security, symbol){symbol.downcase} },
+        symbol: {csv_col: 0 , transform: ->(security, symbol){ symbol.downcase.gsub(/\^/, '-') }},
 
         name: {csv_col: 1},
 

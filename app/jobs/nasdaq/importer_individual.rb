@@ -31,7 +31,7 @@ class Nasdaq::ImporterIndividual
   end
 
   def symbol
-    @symbol ||= @csv[0].downcase
+    @symbol ||= @csv[0].downcase.gsub(/\^/, '-')
   end
 
   private

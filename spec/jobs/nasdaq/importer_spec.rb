@@ -1,14 +1,12 @@
 require 'spec_helper'
 
 describe Nasdaq::Importer, type: :job do
-  context "CSV Import New Symbol" do
-    before(:each) do
-      @nasdaq = FactoryGirl.create(:nasdaq)
-    end
+  let(:nasdaq) { FactoryGirl.create(:nasdaq) }
 
+  context "CSV Import New Symbol" do
     context "Import Valid CSV" do
       before(:each) do
-        @importer = Nasdaq::Importer.new(@nasdaq.name, csv_apple)
+        @importer = Nasdaq::Importer.new(nasdaq.name, csv_apple)
         @importer.import
       end
 
@@ -35,7 +33,7 @@ describe Nasdaq::Importer, type: :job do
 
     context "Not Valid CSV" do
       before(:each) do
-        @importer = Nasdaq::Importer.new(@nasdaq.name, csv_apple_not_valid_empty_symbol)
+        @importer = Nasdaq::Importer.new(nasdaq.name, csv_apple_not_valid_empty_symbol)
         @importer.import
       end
 
@@ -51,8 +49,7 @@ describe Nasdaq::Importer, type: :job do
 
   context "CSV Update Existing Symbol" do
     before(:each) do
-      @apple = FactoryGirl.create(:aapl)
-      @nasdaq = @apple.exchange
+      @apple = FactoryGirl.create(:aapl, exchange: nasdaq)
     end
 
     it "has a security already" do
@@ -61,7 +58,7 @@ describe Nasdaq::Importer, type: :job do
 
     context "Valid CSV" do
       before(:each) do
-        @importer = Nasdaq::Importer.new(@nasdaq.name, csv_apple)
+        @importer = Nasdaq::Importer.new(nasdaq.name, csv_apple)
         @importer.import
       end
 
@@ -82,7 +79,7 @@ describe Nasdaq::Importer, type: :job do
     context "Previously Deactived Security" do
       before(:each) do
         @apple.update_attributes(active: false)
-        @importer = Nasdaq::Importer.new(@nasdaq.name, csv_apple)
+        @importer = Nasdaq::Importer.new(nasdaq.name, csv_apple)
         @importer.import
       end
       it "reactivates the security" do
@@ -96,7 +93,7 @@ describe Nasdaq::Importer, type: :job do
 
     context "Not valid CSV" do
       before(:each) do
-        @importer = Nasdaq::Importer.new(@nasdaq.name, csv_apple_not_valid_empty_symbol)
+        @importer = Nasdaq::Importer.new(nasdaq.name, csv_apple_not_valid_empty_symbol)
         @importer.import
       end
 
@@ -135,6 +132,16 @@ describe Nasdaq::Importer, type: :job do
 
     it "collects the deactivated securities" do
       expect(@importer.deactivated_securities.size).to eq(1)
+    end
+  end
+
+  context "Symbol contains a carret" do
+    before(:each) do
+      @importer = Nasdaq::Importer.new(nasdaq.name, csv_symbol_dash)
+      @importer.import
+    end
+    it "converts the caret to a dash" do
+      expect(@importer.new_items[0].symbol).to eq('utx-a')
     end
   end
 end

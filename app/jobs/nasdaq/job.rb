@@ -35,7 +35,7 @@ class Nasdaq::Job
       logger.info "   #{s.inspect}"
     end
     logger.info "Failed: #{@importer.failed_items.size}"
-    @importer.failed_lines.each do |l|
+    @importer.failed_items.each do |l|
       logger.info "   #{l.to_s}"
     end
   end
