@@ -55,9 +55,9 @@ module Nasdaq
     end
 
     def deactivate_delisted_securities
-      securities_to_deactivate = Security.where("exchange_id = (?) and symbol NOT IN (?)",@exchange.id, all_csv_symbols)
+      securities_to_deactivate = Security.where("exchange_id = (?) AND active = true AND symbol NOT IN (?)",@exchange.id, all_csv_symbols)
+      deactivated_securities.concat securities_to_deactivate.to_a
       securities_to_deactivate.update_all({active: false})
-      @deactivated_securities = securities_to_deactivate
     end
 
     def all_csv_symbols
