@@ -32,7 +32,7 @@ class Nasdaq::Job
     logger.info "Updated: #{@importer.updated_items.size}"
     logger.info "Deactivated:#{@importer.deactivated_securities.size}"
     @importer.deactivated_securities.each do |s|
-      logger.info "   #{s.inspect}"
+      logger.info "   #{s.previous_changes}"
     end
     logger.info "Failed: #{@importer.failed_items.size}"
     @importer.failed_items.each do |l|
