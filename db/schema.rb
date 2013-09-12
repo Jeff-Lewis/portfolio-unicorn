@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130727152725) do
+ActiveRecord::Schema.define(version: 20130809031325) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,21 @@ ActiveRecord::Schema.define(version: 20130727152725) do
   end
 
   add_index "exchanges", ["name"], name: "index_exchanges_on_name", unique: true, using: :btree
+
+  create_table "fundamentals", force: true do |t|
+    t.integer  "security_id",                                            null: false
+    t.decimal  "market_cap",                    precision: 18, scale: 0
+    t.decimal  "avg_daily_volume",              precision: 18, scale: 6
+    t.integer  "week52_low_udollar",  limit: 8
+    t.integer  "week52_high_udollar", limit: 8
+    t.decimal  "earning_per_share",             precision: 18, scale: 6
+    t.decimal  "price_earning_ratio",           precision: 18, scale: 6
+    t.decimal  "dividend_yield",                precision: 18, scale: 6
+    t.date     "dividend_pay_date"
+    t.integer  "avg_price_udollar",   limit: 8,                          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "industries", force: true do |t|
     t.string   "name",       null: false
@@ -146,6 +161,8 @@ ActiveRecord::Schema.define(version: 20130727152725) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
+
+  add_foreign_key "fundamentals", "securities", :name => "fundamentals_security_id_fk", :dependent => :restrict
 
   add_foreign_key "portfolios", "users", :name => "portfolios_user_id_fk", :dependent => :delete
 

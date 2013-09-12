@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: sectors
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)      not null
+#  industry_id :integer          not null
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class Sector < ActiveRecord::Base
   include InsensitiveUniqueField
   belongs_to :industry

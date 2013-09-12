@@ -2,13 +2,13 @@
 #
 # Table name: positions
 #
-#  id                 :integer          not null, primary key
-#  portfolio_id       :integer          not null
-#  security_id        :integer          not null
-#  quantity           :integer          not null
-#  avg_price_cents    :integer          default(0), not null
-#  created_at         :datetime
-#  updated_at         :datetime
+#  id                :integer          not null, primary key
+#  portfolio_id      :integer          not null
+#  security_id       :integer          not null
+#  quantity          :integer          not null
+#  avg_price_udollar :integer          not null
+#  created_at        :datetime
+#  updated_at        :datetime
 #
 
 class Position < ActiveRecord::Base

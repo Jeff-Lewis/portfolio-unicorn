@@ -9,6 +9,7 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #  active      :boolean          default(TRUE), not null
+#  sector_id   :integer          not null
 #
 
 class Security < ActiveRecord::Base
