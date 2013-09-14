@@ -9,6 +9,7 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #  active      :boolean          default(TRUE), not null
+#  sector_id   :integer          not null
 #
 
 require 'faker'
@@ -19,7 +20,7 @@ FactoryGirl.define do
           o = [('a'..'z'),('0'..'9')].map{|i| i.to_a}.flatten
           (0...5).map{ o[rand(o.length)] }.join
       end
-
+      
       sequence(:name) {|n| "Company_#{n}"}
       exchange
       sector

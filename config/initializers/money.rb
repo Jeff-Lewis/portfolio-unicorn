@@ -51,7 +51,7 @@ MoneyRails.configure do |config|
                              postfix: '_currency',
                              column_name: nil,
                              type: :string,
-                             present: true,
+                             present: false,
                              null: false,
                              default: 'USD'
                            }

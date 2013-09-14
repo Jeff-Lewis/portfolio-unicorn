@@ -73,21 +73,6 @@ ActiveRecord::Schema.define(version: 20130809031325) do
 
   add_index "exchanges", ["name"], name: "index_exchanges_on_name", unique: true, using: :btree
 
-  create_table "fundamentals", force: true do |t|
-    t.integer  "security_id",                                            null: false
-    t.decimal  "market_cap",                    precision: 18, scale: 0
-    t.decimal  "avg_daily_volume",              precision: 18, scale: 6
-    t.integer  "week52_low_udollar",  limit: 8
-    t.integer  "week52_high_udollar", limit: 8
-    t.decimal  "earning_per_share",             precision: 18, scale: 6
-    t.decimal  "price_earning_ratio",           precision: 18, scale: 6
-    t.decimal  "dividend_yield",                precision: 18, scale: 6
-    t.date     "dividend_pay_date"
-    t.integer  "avg_price_udollar",   limit: 8,                          null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "industries", force: true do |t|
     t.string   "name",       null: false
     t.datetime "created_at"
@@ -140,6 +125,29 @@ ActiveRecord::Schema.define(version: 20130809031325) do
   add_index "securities", ["sector_id"], name: "index_securities_on_sector_id", using: :btree
   add_index "securities", ["symbol", "exchange_id"], name: "index_securities_on_symbol_and_exchange_id", unique: true, using: :btree
 
+  create_table "security_prices", force: true do |t|
+    t.integer  "security_id",                                               null: false
+    t.integer  "last_price_udollar",     limit: 8
+    t.integer  "bid_udollar",            limit: 8
+    t.integer  "ask_udollar",            limit: 8
+    t.integer  "open_udollar",           limit: 8
+    t.integer  "high_udollar",           limit: 8
+    t.integer  "low_udollar",            limit: 8
+    t.integer  "previous_close_udollar", limit: 8
+    t.integer  "week52_low_udollar",     limit: 8
+    t.integer  "week52_high_udollar",    limit: 8
+    t.decimal  "change",                           precision: 18, scale: 6
+    t.decimal  "market_cap",                       precision: 18, scale: 0
+    t.decimal  "avg_daily_volume",                 precision: 18, scale: 6
+    t.decimal  "volume",                           precision: 18, scale: 6
+    t.decimal  "earning_per_share",                precision: 18, scale: 6
+    t.decimal  "price_earning_ratio",              precision: 18, scale: 6
+    t.decimal  "dividend_yield",                   precision: 18, scale: 6
+    t.date     "dividend_pay_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -162,8 +170,6 @@ ActiveRecord::Schema.define(version: 20130809031325) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
-  add_foreign_key "fundamentals", "securities", :name => "fundamentals_security_id_fk", :dependent => :restrict
-
   add_foreign_key "portfolios", "users", :name => "portfolios_user_id_fk", :dependent => :delete
 
   add_foreign_key "positions", "portfolios", :name => "positions_portfolio_id_fk", :dependent => :delete
@@ -173,5 +179,7 @@ ActiveRecord::Schema.define(version: 20130809031325) do
 
   add_foreign_key "securities", "exchanges", :name => "securities_exchange_id_fk", :dependent => :delete
   add_foreign_key "securities", "sectors", :name => "securities_sector_id_fk", :dependent => :nullify
+
+  add_foreign_key "security_prices", "securities", :name => "security_prices_security_id_fk", :dependent => :restrict
 
 end

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: positions
+#
+#  id                :integer          not null, primary key
+#  portfolio_id      :integer          not null
+#  security_id       :integer          not null
+#  quantity          :integer          not null
+#  avg_price_udollar :integer          not null
+#  created_at        :datetime
+#  updated_at        :datetime
+#
+
 require 'spec_helper'
 
 describe Position do
