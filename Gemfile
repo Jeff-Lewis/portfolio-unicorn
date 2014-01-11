@@ -16,7 +16,7 @@ gem 'faraday'
 gem 'devise'
 gem 'cancan', '= 1.6.9' #use exact version as 1.6.10 has a bug making it not work properly with shallow route path
 
-gem 'activeadmin', github: 'gregbell/active_admin', branch: 'rails4'
+gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'ransack', github: 'ernie/ransack', branch: 'rails-4'
 gem 'inherited_resources', github: 'josevalim/inherited_resources'
 gem 'formtastic', github: 'justinfrench/formtastic'
@@ -36,10 +36,10 @@ gem 'coffee-rails', '~> 4.0.0'
 # gem 'therubyracer', platforms: :ruby
 
 gem 'clockwork'
-gem 'delayed_job_active_record', '~> 4.0.0.beta2'
+gem 'delayed_job_active_record', '~> 4.0.0'
 
 #add foreign keys to relationships
-gem 'foreigner' 
+gem 'foreigner'
 
 # Build JSON APIs
 gem 'rabl'
@@ -68,7 +68,7 @@ group :development do
     gem 'annotate'
 end
 
-group :development, :test do 
+group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
 end
