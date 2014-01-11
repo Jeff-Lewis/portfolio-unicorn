@@ -30,11 +30,11 @@ class SecurityPrice < ActiveRecord::Base
   belongs_to :security
   validates :security_id, presence: true
 
-   [:last_price, :bid, :ask, :open, :high, :low, :previous_close, :week52_low, :week52_high ].each do |attrib|
-    monetize "#{attrib}_udollar", allow_nil: true, numericality: { greater_than: 0 }
+   [:last_price, :bid, :ask, :open, :high,
+    :low, :previous_close, :week52_low, :week52_high ].each do |attrib|
+      monetize "#{attrib}_udollar", allow_nil: true, numericality: { greater_than: 0 }
+    end
 
     alias_attribute :eps, :earning_per_share
     alias_attribute :pe, :price_earning_ratio
-  end
-
 end

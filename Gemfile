@@ -25,6 +25,8 @@ gem 'formtastic', github: 'justinfrench/formtastic'
 # represent money
 gem 'money-rails'
 
+gem 'smarter_csv'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 

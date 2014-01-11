@@ -3,4 +3,5 @@ module Exceptions
   class ResourceTypeError < JobError; end
 
   class ExchangeNotFoundError < JobError; end
+  class MissingParameterError < JobError; end
 end

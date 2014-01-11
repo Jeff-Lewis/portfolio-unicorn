@@ -1,16 +1,12 @@
 class Yahoo::Client
-  attr_reader :quotes
+  attr_reader :quotes, :securities
 
   def initialize(securities)
     @securities = securities
   end
 
   def quotes
-    @quotes ||= client.get api_path(quote_fields)
-  end
-
-  def fundamentals
-    @fundamentals ||= client.get api_path(fundamental_fields)
+    @quotes ||= client.get api_path(fields)
   end
 
   private
@@ -22,12 +18,8 @@ class Yahoo::Client
       @securities.map{|s| s.symbol}.join('+')
     end
 
-    def quote_fields
-      Yahoo::QUOTE_KEYS.join('')
-    end
-
-    def fundamental_fields
-      Yahoo::FUNDAMENTALS_KEYS.join('')
+    def fields
+      Yahoo::KEYS.join('')
     end
 
     def client

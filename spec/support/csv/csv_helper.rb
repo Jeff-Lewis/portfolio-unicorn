@@ -27,6 +27,10 @@ module CSVHelper
     '"UTX^A","United Technologies Corporation","64.46","0","n/a","n/a","n/a","n/a","http://www.nasdaq.com/symbol/utx^a",'
   end
 
+  def aapl_yahoo_quote
+    '"AAPL","NasdaqNM",482.40,482.40,483.60,483.60,483.50,484.60,478.60,483.41,385.10,652.79,"N/A - -0.08%","-0.08%",438.8B,12829600,9245340,40.106,12.05,2.36,"Aug 15","N/A"\r\n'
+  end
+
   private
   def header
     '"Symbol","Name","LastSale","MarketCap","ADR TSO","IPOyear","Sector","Industry","Summary Quote",' + "\n"

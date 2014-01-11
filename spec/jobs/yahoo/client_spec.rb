@@ -6,14 +6,14 @@ describe Yahoo::Client, type: :job do
   subject { Yahoo::Client.new(securities)}
 
   context "Fundamentals" do
-    let(:url) { "d/quotes.csv?s=#{securities.map{|s| s.symbol}.join('+')}&f=#{Yahoo::FUNDAMENTALS_KEYS.join('')}" }
+    let(:url) { "d/quotes.csv?s=#{securities.map{|s| s.symbol}.join('+')}&f=#{Yahoo::KEYS.join('')}" }
 
     it "gets the correct url" do
       mock_client = double('client') 
       subject.stub(:client).and_return(mock_client)
       expect(mock_client).to receive(:get).with(url)
 
-      subject.fundamentals
+      subject.quotes
     end
   end
 end
